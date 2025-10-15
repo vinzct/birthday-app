@@ -7,6 +7,7 @@ import GalleryPage from './components/GalleryPage';
 import ListPage from './components/ListPage';
 import JokesPage from './components/JokesPage';
 import CouponsPage from './components/CouponsPage';
+import OrientationPrompt from './components/OrientationPrompt';
 import { bookContent } from './data/bookContent';
 
 function App() {
@@ -18,11 +19,6 @@ function App() {
     const checkTimerStatus = () => {
       const now = new Date();
       const target = new Date(bookContent.birthdayDate);
-      
-      console.log('Checking timer status:');
-      console.log('Now:', now);
-      console.log('Target:', target);
-      console.log('Is complete?', now >= target);
       
       if (now >= target) {
         setIsTimerComplete(true);
@@ -67,44 +63,46 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-amber-50 flex items-center justify-center p-4">
-      <div className="w-full">
-        <BookLayout 
-          currentPage={currentPage} 
-          onPageChange={handlePageChange}
-          isTimerComplete={isTimerComplete}
-        >
-          {/* Cover Page (Page 0) */}
-          <div className="page-content">
-            <CoverPage
-              title={bookContent.title}
-              subtitle={bookContent.subtitle}
-              recipientName={bookContent.recipientName}
-              onOpenLetter={handleOpenLetter}
-              isTimerComplete={isTimerComplete}
-            />
-          </div>
-          
-          {/* Timer Page (Page 1) */}
-          <div className="page-content">
-            <Timer 
-              targetDate={bookContent.birthdayDate} 
-              onComplete={() => {
-                console.log('Timer completed!');
-                setIsTimerComplete(true);
-              }}
-            />
-          </div>
-          
-          {/* Content Pages - Only accessible after timer completes */}
-          {bookContent.pages.map((page, index) => (
-            <div key={page.id} className="page-content">
-              {renderPageByType(page)}
+    <>
+      <OrientationPrompt />
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-amber-50 flex items-center justify-center p-2 md:p-4">
+        <div className="w-full">
+          <BookLayout 
+            currentPage={currentPage} 
+            onPageChange={handlePageChange}
+            isTimerComplete={isTimerComplete}
+          >
+            {/* Cover Page (Page 0) */}
+            <div className="page-content">
+              <CoverPage
+                title={bookContent.title}
+                subtitle={bookContent.subtitle}
+                recipientName={bookContent.recipientName}
+                onOpenLetter={handleOpenLetter}
+                isTimerComplete={isTimerComplete}
+              />
             </div>
-          ))}
-        </BookLayout>
+            
+            {/* Timer Page (Page 1) */}
+            <div className="page-content">
+              <Timer 
+                targetDate={bookContent.birthdayDate} 
+                onComplete={() => {
+                  setIsTimerComplete(true);
+                }}
+              />
+            </div>
+            
+            {/* Content Pages - Only accessible after timer completes */}
+            {bookContent.pages.map((page, index) => (
+              <div key={page.id} className="page-content">
+                {renderPageByType(page)}
+              </div>
+            ))}
+          </BookLayout>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
