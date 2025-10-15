@@ -10,7 +10,7 @@ export const bookContent = {
   //birthdayDate: new Date(Date.now() + 2 * 60 * 1000).toISOString(), // 2 minutes from now for testing
   
   // For actual use, uncomment and set your date:
-   birthdayDate: "2024-10-17T00:00:00",
+   birthdayDate: "2025-10-17T00:00:00",
   
   pages: [
     {
